@@ -11,13 +11,14 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           <div className="space-y-4">
             <div className="flex items-center gap-2.5">
-              <div className="h-9 w-9 rounded-lg bg-[#1877F2] flex items-center justify-center">
-                <span className="text-white font-bold text-sm leading-none">FF</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-base font-bold text-white leading-tight">Fair Fab</span>
-                <span className="text-[10px] font-medium text-[#AAC9FF] uppercase tracking-[0.2em] leading-tight">Gallery</span>
-              </div>
+              <img
+                src="/logo.jpg"
+                alt="Fair Fab Gallery"
+                className="h-9 w-auto rounded"
+              />
+              <span className="text-[10px] font-medium text-[#AAC9FF] uppercase tracking-[0.2em] leading-tight">
+                Gallery
+              </span>
             </div>
             <p className="text-sm text-[#CCCCCC] leading-relaxed max-w-xs">
               Contemporary digital art gallery by {SITE_CONFIG.artistShort}. Revisiting the standards of Pop Art and contemporary artistic trends.

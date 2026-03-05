@@ -15,17 +15,14 @@ export default function Header() {
       <div className="mx-auto max-w-7xl">
         <nav className="flex h-16 items-center justify-between px-4 lg:px-8">
           <Link to="/" className="flex items-center gap-2.5">
-            <div className="h-9 w-9 rounded-lg bg-[#1D3C78] flex items-center justify-center">
-              <span className="text-white font-bold text-sm leading-none">FF</span>
-            </div>
-            <div className="flex flex-col">
-              <span className="text-base font-bold text-[#000000] leading-tight tracking-tight">
-                Fair Fab
-              </span>
-              <span className="text-[10px] font-medium text-[#444950] uppercase tracking-[0.2em] leading-tight">
-                Gallery
-              </span>
-            </div>
+            <img
+              src="/logo.jpg"
+              alt="Fair Fab Gallery"
+              className="h-9 w-auto rounded"
+            />
+            <span className="text-[10px] font-medium text-[#444950] uppercase tracking-[0.2em] leading-tight">
+              Gallery
+            </span>
           </Link>
 
           <div className="hidden lg:flex flex-1 justify-center">
@@ -76,10 +73,12 @@ export default function Header() {
                 <SheetHeader>
                   <SheetTitle>
                     <div className="flex items-center gap-2.5">
-                      <div className="h-9 w-9 rounded-lg bg-[#1D3C78] flex items-center justify-center">
-                        <span className="text-white font-bold text-sm">FF</span>
-                      </div>
-                      <span className="text-lg font-bold">Fair Fab Gallery</span>
+                      <img
+                        src="/logo.jpg"
+                        alt="Fair Fab Gallery"
+                        className="h-9 w-auto rounded"
+                      />
+                      <span className="text-lg font-bold">Gallery</span>
                     </div>
                   </SheetTitle>
                 </SheetHeader>
