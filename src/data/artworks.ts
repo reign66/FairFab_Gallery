@@ -11,7 +11,6 @@ export interface Artwork {
   dimensions: string;
   available: boolean;
   featured: boolean;
-  price?: string;
 }
 
 export const artworks: Artwork[] = [
@@ -28,7 +27,6 @@ export const artworks: Artwork[] = [
     dimensions: '4000 x 5000 px',
     available: true,
     featured: true,
-    price: 'From $350',
   },
   {
     id: 2,
@@ -43,7 +41,6 @@ export const artworks: Artwork[] = [
     dimensions: '5000 x 3500 px',
     available: true,
     featured: true,
-    price: 'From $400',
   },
   {
     id: 3,
@@ -58,7 +55,6 @@ export const artworks: Artwork[] = [
     dimensions: '4500 x 4500 px',
     available: true,
     featured: true,
-    price: 'From $500',
   },
   {
     id: 4,
@@ -73,7 +69,6 @@ export const artworks: Artwork[] = [
     dimensions: '6000 x 4000 px',
     available: true,
     featured: true,
-    price: 'From $300',
   },
   {
     id: 5,
@@ -88,7 +83,6 @@ export const artworks: Artwork[] = [
     dimensions: '4000 x 4000 px',
     available: true,
     featured: false,
-    price: 'From $275',
   },
   {
     id: 6,
@@ -103,7 +97,6 @@ export const artworks: Artwork[] = [
     dimensions: '5000 x 5000 px',
     available: true,
     featured: false,
-    price: 'From $350',
   },
   {
     id: 7,
@@ -118,7 +111,6 @@ export const artworks: Artwork[] = [
     dimensions: '6000 x 4500 px',
     available: true,
     featured: false,
-    price: 'From $450',
   },
   {
     id: 8,
@@ -133,7 +125,6 @@ export const artworks: Artwork[] = [
     dimensions: '5000 x 7000 px',
     available: true,
     featured: false,
-    price: 'From $750',
   },
   {
     id: 9,
@@ -148,7 +139,6 @@ export const artworks: Artwork[] = [
     dimensions: '7000 x 4000 px',
     available: true,
     featured: false,
-    price: 'From $400',
   },
   {
     id: 10,
@@ -163,7 +153,6 @@ export const artworks: Artwork[] = [
     dimensions: '4500 x 6000 px',
     available: true,
     featured: false,
-    price: 'From $375',
   },
   {
     id: 11,
@@ -178,7 +167,6 @@ export const artworks: Artwork[] = [
     dimensions: '5000 x 4000 px',
     available: true,
     featured: false,
-    price: 'From $325',
   },
   {
     id: 12,
@@ -193,7 +181,6 @@ export const artworks: Artwork[] = [
     dimensions: '8000 x 4000 px',
     available: true,
     featured: false,
-    price: 'From $850',
   },
 ];
 
@@ -205,11 +192,14 @@ export const getFeaturedArtworks = (): Artwork[] => {
   return artworks.filter((a) => a.featured);
 };
 
-export const getRelatedArtworks = (currentSlug: string, limit = 4): Artwork[] => {
-  const current = getArtworkBySlug(currentSlug);
-  if (!current) return artworks.slice(0, limit);
+export const getRelatedArtworks = (currentSlug: string, category?: string, limit = 4): Artwork[] => {
+  if (!category) {
+    const current = getArtworkBySlug(currentSlug);
+    if (!current) return artworks.slice(0, limit);
+    category = current.category;
+  }
   return artworks
-    .filter((a) => a.slug !== currentSlug && a.category === current.category)
+    .filter((a) => a.slug !== currentSlug && a.category === category)
     .slice(0, limit);
 };
 

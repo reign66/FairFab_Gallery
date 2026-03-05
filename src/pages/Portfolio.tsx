@@ -2,9 +2,8 @@ import { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { Search } from 'lucide-react';
 import { SEO } from '@/hooks/useSEO';
-import Breadcrumbs from '@/components/common/Breadcrumbs';
 import ArtworkCard from '@/components/cards/ArtworkCard';
-import { artworks, categories } from '@/data/artworks';
+import { artworks } from '@/data/artworks';
 
 const SORT_OPTIONS = [
   { value: 'recent', label: 'Recent' },
@@ -12,19 +11,6 @@ const SORT_OPTIONS = [
 ];
 
 const FILTER_BUTTONS = ['All', 'Pop Art', 'Contemporary', 'Commissions', 'Limited Edition'];
-
-const cardVariants = {
-  hidden: { opacity: 0, y: 24 },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: {
-      delay: i * 0.07,
-      duration: 0.4,
-      ease: 'easeOut',
-    },
-  }),
-};
 
 export default function Portfolio() {
   const [activeFilter, setActiveFilter] = useState<string>('All');
@@ -36,21 +22,19 @@ export default function Portfolio() {
 
     if (activeFilter !== 'All') {
       result = result.filter(
-        (a) => a.category?.toLowerCase() === activeFilter.toLowerCase()
+        (a) => a.category.toLowerCase() === activeFilter.toLowerCase()
       );
     }
 
     if (search.trim()) {
       const q = search.trim().toLowerCase();
-      result = result.filter((a) => a.title?.toLowerCase().includes(q));
+      result = result.filter((a) => a.title.toLowerCase().includes(q));
     }
 
     if (sort === 'az') {
-      result = result.sort((a, b) => (a.title ?? '').localeCompare(b.title ?? ''));
+      result.sort((a, b) => a.title.localeCompare(b.title));
     } else {
-      result = result.sort(
-        (a, b) => (b.year ?? 0) - (a.year ?? 0)
-      );
+      result.sort((a, b) => b.year - a.year);
     }
 
     return result;
@@ -65,31 +49,41 @@ export default function Portfolio() {
 
       <main className="min-h-screen bg-[#F2F3F5]">
         {/* Hero header */}
-        <section className="bg-[#000000] text-white pt-12 pb-10 px-4">
-          <div className="max-w-6xl mx-auto">
-            <Breadcrumbs
-              items={[{ label: 'Portfolio' }]}
-              className="mb-4 text-[#AAC9FF]"
+        <section className="relative bg-[#000000] text-white pt-20 pb-16 px-6 lg:px-12 overflow-hidden">
+          {/* Subtle background */}
+          <div className="absolute inset-0 opacity-10" aria-hidden="true">
+            <img
+              src="/images/artworks/artwork-02.jpg"
+              alt=""
+              className="w-full h-full object-cover"
             />
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight tracking-tight">
-              Digital Art Portfolio{' '}
-              <span className="text-[#77A7FF]">— Contemporary &amp; Pop Art Creations</span>
+          </div>
+          <div className="absolute inset-0 bg-gradient-to-b from-black/80 to-black/95" />
+
+          <div className="relative max-w-7xl mx-auto">
+            <motion.div
+              initial={{ width: 0 }}
+              animate={{ width: 60 }}
+              transition={{ duration: 0.8 }}
+              className="h-[2px] bg-[#AAC9FF] mb-8"
+            />
+            <h1
+              className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-[1.1] tracking-tight mb-6"
+              style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+            >
+              Portfolio
             </h1>
-            <p className="mt-5 max-w-2xl text-[#CCCCCC] text-base sm:text-lg leading-relaxed">
-              Step into a curated universe of digital works that merge the boldness of pop art
-              with contemporary aesthetics. Fair Fab Gallery showcases original compositions,
-              vibrant portraits, limited edition prints, and bespoke commissions — each piece
-              crafted with intention and precision. Whether you are discovering a new favourite
-              or searching for the perfect statement artwork, this portfolio brings together
-              every creative chapter. Explore the full collection, filter by category, and
-              find the work that speaks directly to you.
+            <p className="max-w-2xl text-white/60 text-base leading-relaxed">
+              A curated collection of digital works that merge the boldness of pop art
+              with contemporary aesthetics. Explore original compositions, vibrant
+              portraits, limited edition prints, and bespoke commissions.
             </p>
           </div>
         </section>
 
         {/* Controls bar */}
-        <section className="bg-white border-b border-[#CCCCCC] sticky top-0 z-20 shadow-sm">
-          <div className="max-w-6xl mx-auto px-4 py-3 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <section className="bg-white border-b border-[#CCCCCC]/40 sticky top-0 z-20">
+          <div className="max-w-7xl mx-auto px-6 lg:px-12 py-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             {/* Filter buttons */}
             <div className="flex flex-wrap gap-2">
               {FILTER_BUTTONS.map((filter) => {
@@ -100,10 +94,10 @@ export default function Portfolio() {
                     onClick={() => setActiveFilter(filter)}
                     aria-pressed={isActive}
                     className={[
-                      'px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-200 border',
+                      'px-4 py-1.5 text-sm font-medium transition-all duration-200 border',
                       isActive
-                        ? 'bg-[#1877F2] text-white border-[#1877F2] shadow-sm'
-                        : 'bg-white text-[#444950] border-[#CCCCCC] hover:border-[#1877F2] hover:text-[#1877F2]',
+                        ? 'bg-[#000000] text-white border-[#000000]'
+                        : 'bg-white text-[#444950] border-[#CCCCCC] hover:border-[#000000] hover:text-[#000000]',
                     ].join(' ')}
                   >
                     {filter}
@@ -113,7 +107,7 @@ export default function Portfolio() {
             </div>
 
             {/* Search + Sort */}
-            <div className="flex items-center gap-2 w-full sm:w-auto">
+            <div className="flex items-center gap-3 w-full sm:w-auto">
               <div className="relative flex-1 sm:w-56">
                 <Search
                   size={16}
@@ -124,9 +118,9 @@ export default function Portfolio() {
                   type="search"
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
-                  placeholder="Search by title…"
+                  placeholder="Search by title..."
                   aria-label="Search artworks by title"
-                  className="w-full pl-9 pr-3 py-1.5 rounded-md border border-[#CCCCCC] bg-[#F2F3F5] text-sm text-[#444950] placeholder-[#CCCCCC] focus:outline-none focus:ring-2 focus:ring-[#1877F2] focus:border-[#1877F2] transition-all duration-200"
+                  className="w-full pl-9 pr-3 py-2 border border-[#CCCCCC] bg-white text-sm text-[#444950] placeholder-[#CCCCCC] focus:outline-none focus:ring-1 focus:ring-[#000000] focus:border-[#000000] transition-all duration-200"
                 />
               </div>
 
@@ -134,7 +128,7 @@ export default function Portfolio() {
                 value={sort}
                 onChange={(e) => setSort(e.target.value)}
                 aria-label="Sort artworks"
-                className="px-3 py-1.5 rounded-md border border-[#CCCCCC] bg-white text-sm text-[#444950] focus:outline-none focus:ring-2 focus:ring-[#1877F2] focus:border-[#1877F2] transition-all duration-200 cursor-pointer"
+                className="px-3 py-2 border border-[#CCCCCC] bg-white text-sm text-[#444950] focus:outline-none focus:ring-1 focus:ring-[#000000] focus:border-[#000000] transition-all duration-200 cursor-pointer"
               >
                 {SORT_OPTIONS.map((opt) => (
                   <option key={opt.value} value={opt.value}>
@@ -147,7 +141,7 @@ export default function Portfolio() {
         </section>
 
         {/* Grid */}
-        <section className="max-w-6xl mx-auto px-4 py-10">
+        <section className="max-w-7xl mx-auto px-6 lg:px-12 py-12">
           {filtered.length === 0 ? (
             <div className="text-center py-24">
               <p className="text-[#444950] text-lg font-medium">No artworks found.</p>
@@ -157,22 +151,21 @@ export default function Portfolio() {
             </div>
           ) : (
             <>
-              <p className="text-sm text-[#444950] mb-6">
-                {filtered.length} artwork{filtered.length !== 1 ? 's' : ''} found
+              <p className="text-xs text-[#444950] uppercase tracking-wider mb-8">
+                {filtered.length} artwork{filtered.length !== 1 ? 's' : ''}
               </p>
               <div
-                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
                 role="list"
                 aria-label="Artwork gallery"
               >
                 {filtered.map((artwork, i) => (
                   <motion.div
-                    key={artwork.slug ?? artwork.id}
+                    key={artwork.slug}
                     role="listitem"
-                    custom={i}
-                    initial="hidden"
-                    animate="visible"
-                    variants={cardVariants}
+                    initial={{ opacity: 0, y: 24 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: i * 0.06, duration: 0.4, ease: 'easeOut' }}
                   >
                     <ArtworkCard artwork={artwork} />
                   </motion.div>

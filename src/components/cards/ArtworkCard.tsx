@@ -67,9 +67,6 @@ export default function ArtworkCard({ artwork, index = 0 }: { artwork: Artwork; 
             <span className="text-xs font-medium text-[#77A7FF] bg-[#ECF3FF] px-2 py-0.5 rounded-full">
               {artwork.category}
             </span>
-            {artwork.price && (
-              <span className="text-sm font-medium text-[#2851A3]">{artwork.price}</span>
-            )}
           </div>
         </div>
       </Link>

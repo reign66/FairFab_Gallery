@@ -6,9 +6,9 @@ interface BreadcrumbItem {
   path?: string;
 }
 
-export default function Breadcrumbs({ items }: { items: BreadcrumbItem[] }) {
+export default function Breadcrumbs({ items, className }: { items: BreadcrumbItem[]; className?: string }) {
   return (
-    <nav aria-label="Breadcrumb" className="mb-6">
+    <nav aria-label="Breadcrumb" className={`mb-6 ${className ?? ''}`}>
       <ol className="flex items-center gap-1.5 text-sm text-[#444950] flex-wrap">
         <li>
           <Link to="/" className="flex items-center gap-1 hover:text-[#1877F2] transition-colors">

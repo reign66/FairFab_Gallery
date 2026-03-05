@@ -1,7 +1,7 @@
 import { useParams, Link, Navigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Heart, Share2, ShoppingCart, FileKey, Paintbrush, ArrowLeft } from 'lucide-react';
+import { Heart, Share2, Paintbrush, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { SEO } from '@/hooks/useSEO';
 import Breadcrumbs from '@/components/common/Breadcrumbs';
@@ -50,7 +50,7 @@ export default function ArtworkDetail() {
     return <Navigate to="/404" replace />;
   }
 
-  const relatedArtworks = getRelatedArtworks(artwork.slug ?? '', artwork.category ?? '');
+  const relatedArtworks = getRelatedArtworks(artwork.slug, artwork.category);
   const schemaMarkup = generateArtworkSchema(artwork);
 
   const breadcrumbs = [
@@ -147,7 +147,7 @@ export default function ArtworkDetail() {
                 ].join(' ')}
               >
                 <img
-                  src={artwork.image ?? artwork.imageUrl}
+                  src={artwork.image}
                   alt={artwork.title ?? 'Artwork'}
                   width={800}
                   height={800}
@@ -157,9 +157,9 @@ export default function ArtworkDetail() {
                   ].join(' ')}
                 />
               </div>
-              {artwork.edition && (
+              {artwork.category === 'Limited Edition' && (
                 <span className="absolute top-3 left-3 bg-[#1877F2] text-white text-xs font-semibold px-3 py-1 rounded-full shadow">
-                  {artwork.edition}
+                  Limited Edition
                 </span>
               )}
             </motion.div>
@@ -185,12 +185,8 @@ export default function ArtworkDetail() {
 
               {/* Meta */}
               <dl className="grid grid-cols-2 gap-x-6 gap-y-3 text-sm">
-                {artwork.artist && (
-                  <>
-                    <dt className="text-[#CCCCCC] font-medium">Artist</dt>
-                    <dd className="text-[#444950] font-semibold">{artwork.artist}</dd>
-                  </>
-                )}
+                <dt className="text-[#CCCCCC] font-medium">Artist</dt>
+                <dd className="text-[#444950] font-semibold">Fabien Ariel Abisror</dd>
                 {artwork.year && (
                   <>
                     <dt className="text-[#CCCCCC] font-medium">Year</dt>
@@ -203,12 +199,8 @@ export default function ArtworkDetail() {
                     <dd className="text-[#444950]">{artwork.dimensions}</dd>
                   </>
                 )}
-                {artwork.medium && (
-                  <>
-                    <dt className="text-[#CCCCCC] font-medium">Medium</dt>
-                    <dd className="text-[#444950]">{artwork.medium}</dd>
-                  </>
-                )}
+                <dt className="text-[#CCCCCC] font-medium">Medium</dt>
+                <dd className="text-[#444950]">Digital Art</dd>
               </dl>
 
               {/* Techniques */}
@@ -238,45 +230,12 @@ export default function ArtworkDetail() {
                 </p>
               )}
 
-              {/* Price */}
-              {artwork.price && (
-                <p className="text-2xl font-bold text-[#1877F2]">
-                  {typeof artwork.price === 'number'
-                    ? `$${artwork.price.toLocaleString('en-US')}`
-                    : artwork.price}
-                </p>
-              )}
-
               {/* Action buttons */}
               <div className="flex flex-col gap-3 pt-2">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  <Button
-                    asChild
-                    className="bg-[#1877F2] hover:bg-[#2851A3] text-white font-semibold rounded-md transition-colors duration-200 flex items-center gap-2"
-                  >
-                    <Link to={artwork.purchaseUrl ?? '/contact?type=purchase'}>
-                      <ShoppingCart size={16} aria-hidden="true" />
-                      Purchase Print
-                    </Link>
-                  </Button>
-
-                  <Button
-                    asChild
-                    variant="outline"
-                    className="border-[#1877F2] text-[#1877F2] hover:bg-[#ECF3FF] font-semibold rounded-md transition-colors duration-200 flex items-center gap-2"
-                  >
-                    <Link to={artwork.licenseUrl ?? '/contact?type=license'}>
-                      <FileKey size={16} aria-hidden="true" />
-                      License This Work
-                    </Link>
-                  </Button>
-                </div>
-
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                   <Button
                     asChild
-                    variant="outline"
-                    className="border-[#CCCCCC] text-[#444950] hover:border-[#1877F2] hover:text-[#1877F2] font-medium rounded-md transition-colors duration-200 flex items-center gap-2"
+                    className="bg-[#1877F2] hover:bg-[#2851A3] text-white font-semibold rounded-md transition-colors duration-200 flex items-center gap-2"
                   >
                     <Link to="/contact?type=commission">
                       <Paintbrush size={16} aria-hidden="true" />
