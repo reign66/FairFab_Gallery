@@ -4,7 +4,7 @@ export const SITE_CONFIG = {
   description: 'Contemporary digital art gallery by Fabien Ariel, based in Tel Aviv. Revisiting the standards of Pop Art and contemporary artistic trends.',
   artist: 'Fabien Ariel Abisror',
   artistShort: 'Fabien Ariel',
-  email: 'contact@fair-fab-gallery.com',
+  email: 'fairfabgallery@gmail.com',
   phone: '+972 50 123 4567',
   location: 'Tel Aviv, Israel',
   instagram: 'https://www.instagram.com/fair_fab_gallery/',
